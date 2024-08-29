@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 import { TextureLoader } from 'three';
@@ -12,16 +12,6 @@ const Coin = () => {
   const emoji2Normla = useLoader(TextureLoader, '/emojis/2n.png');
   const coinRef = useRef();
   const materialRef = useRef();
-
-  useEffect(() => {
-    setInterval(() => {
-      if (materialRef.current && materialRef.current.map === emoji1) {
-        materialRef.current.map = emoji2;
-      } else {
-        materialRef.current.map = emoji1;
-      }
-    }, 5000);
-  }, [emoji1, emoji2]);
 
   useFrame(() => {
     if (coinRef.current) {
