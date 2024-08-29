@@ -1,32 +1,44 @@
 /* eslint-disable react/no-unknown-property */
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 import { TextureLoader } from 'three';
 import useCountStore from '../store/CountStore';
+import config from '../config';
 
 const Coin = () => {
-  // Load your emoji textures
-  const emoji1 = useLoader(TextureLoader, '/emojis/1.png');
-  const emoji1Normal = useLoader(TextureLoader, '/emojis/1n.png');
-  const emoji2 = useLoader(TextureLoader, '/emojis/2.png');
-  const emoji2Normla = useLoader(TextureLoader, '/emojis/2n.png');
+  const emojis = useLoader(
+    TextureLoader,
+    Array.from({ length: config.emojiCount }, (_, i) => `/emojis/${i + 1}.png`)
+  );
   const coinRef = useRef();
   const materialRef = useRef();
 
-  const increaseCount = useCountStore(state => state.increment);
+  const randEmoji = useCountStore((state) => state.randEmoji);
+  const increaseCount = useCountStore((state) => state.increment);
   // const [isFlipping, setIsFlipping] = useState(false);
   const [hasIncreased, setHasIncreased] = useState(false);
 
+  useEffect(() => {
+    increaseCount();
+  }, [increaseCount]);
+
   useFrame(() => {
     if (coinRef.current) {
-      coinRef.current.rotation.y += 0.01;
-      if (!hasIncreased && coinRef.current.rotation.y >= Math.PI) {
+      coinRef.current.rotation.y += 0.02;
+      const rotation = coinRef.current.rotation.y;
+      if (!hasIncreased && rotation >= Math.PI / 2 && rotation < Math.PI) {
         increaseCount();
         setHasIncreased(true);
       }
-      if (coinRef.current.rotation.y >= Math.PI * 2) {
+      if (hasIncreased && rotation >= Math.PI && rotation < (3 * Math.PI) / 2) {
+        setHasIncreased(false);
+      }
+      if (!hasIncreased && rotation >= (3 * Math.PI) / 2 && rotation < Math.PI * 2) {
         increaseCount();
+        setHasIncreased(true);
+      }
+      if (rotation >= Math.PI * 2) {
         coinRef.current.rotation.y = 0;
         setHasIncreased(false);
       }
@@ -48,20 +60,15 @@ const Coin = () => {
       {/** Top side **/}
       <mesh position={[0, 0, 0.101]}>
         <circleGeometry args={[1, 32]} />
-        <meshStandardMaterial
-          attach="material"
-          map={emoji1}
-          normalMap={emoji1Normal}
-        />
+        <meshStandardMaterial attach='material' map={emojis[randEmoji]} />
       </mesh>
       {/** Bottom side **/}
       <mesh position={[0, 0, -0.101]}>
         <circleGeometry args={[1, 32]} />
         <meshStandardMaterial
-          attach="material"
+          attach='material'
           side={THREE.DoubleSide}
-          map={emoji2}
-          normalMap={emoji2Normla}
+          map={emojis[randEmoji]}
         />
       </mesh>
     </group>
