@@ -1,8 +1,9 @@
 /* eslint-disable react/no-unknown-property */
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 import { TextureLoader } from 'three';
+import useCountStore from '../store/CountStore';
 
 const Coin = () => {
   // Load your emoji textures
@@ -13,9 +14,22 @@ const Coin = () => {
   const coinRef = useRef();
   const materialRef = useRef();
 
+  const increaseCount = useCountStore(state => state.increment);
+  // const [isFlipping, setIsFlipping] = useState(false);
+  const [hasIncreased, setHasIncreased] = useState(false);
+
   useFrame(() => {
     if (coinRef.current) {
       coinRef.current.rotation.y += 0.01;
+      if (!hasIncreased && coinRef.current.rotation.y >= Math.PI) {
+        increaseCount();
+        setHasIncreased(true);
+      }
+      if (coinRef.current.rotation.y >= Math.PI * 2) {
+        increaseCount();
+        coinRef.current.rotation.y = 0;
+        setHasIncreased(false);
+      }
     }
   });
 
