@@ -10,7 +10,7 @@ const Info = () => {
 
   return (
     <div className='absolute top-0 left-0 w-full h-full flex flex-col items-center p-10'>
-      <p className='text-2xl font-bold'>Flips: {flipCount}</p>
+      <p className='text-2xl font-bold text-white'>Flips: {flipCount}</p>
     </div>
   );
 };

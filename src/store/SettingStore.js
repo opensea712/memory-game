@@ -7,7 +7,13 @@ const useSettingStore = create((set) => ({
   flipLimit: config.flipLimit,
   emojiCount: config.emojiCount,
   setLevel: (level) => set({ level: level }),
-  setIsFlipping: (isFlipping) => set({ isFlipping: isFlipping }),
+  setIsFlipping: (isFlipping) =>
+    set(() => {
+      if (isFlipping === false) {
+        return { isFlipping: isFlipping, flipLimit: 1 };
+      }
+      return { isFlipping: isFlipping };
+    }),
   setFlipLimit: (limit) => set({ flipLimit: limit }),
   setEmojiCount: (count) => set({ emojiCount: count }),
 }));

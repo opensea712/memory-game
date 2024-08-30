@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { TextureLoader } from 'three';
 import useCountStore from '../store/CountStore';
 import config from '../config';
+import useSettingStore from '../store/SettingStore';
 
 const Coin = () => {
   const emojis = useLoader(
@@ -16,15 +17,15 @@ const Coin = () => {
 
   const curEmoji = useCountStore((state) => state.curEmoji);
   const increaseCount = useCountStore((state) => state.increment);
-  // const [isFlipping, setIsFlipping] = useState(false);
+  const isFlipping = useSettingStore((state) => state.isFlipping);
   const [hasIncreased, setHasIncreased] = useState(false);
 
   useEffect(() => {
     increaseCount();
-  }, [increaseCount]);
+  }, [increaseCount, isFlipping]);
 
   useFrame(() => {
-    if (coinRef.current) {
+    if (isFlipping && coinRef.current) {
       coinRef.current.rotation.y += 0.02;
       const rotation = coinRef.current.rotation.y;
       if (!hasIncreased && rotation >= Math.PI / 2 && rotation < Math.PI) {
