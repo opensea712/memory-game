@@ -3,18 +3,20 @@ import config from '../config';
 
 const useCountStore = create((set) => ({
   count: 0,
-  randEmoji: 0,
+  curEmoji: 0,
   emojiArray: [],
+  emojiCount: config.emojiCount,
   increment: () =>
     set((state) => {
-      const newRandEmoji = Math.floor(Math.random() * config.emojiCount);
+      const newcurEmoji = Math.floor(Math.random() * state.emojiCount);
       return {
         count: state.count + 1,
-        randEmoji: newRandEmoji,
-        emojiArray: [...state.emojiArray, newRandEmoji],
+        curEmoji: newcurEmoji,
+        emojiArray: [...state.emojiArray, newcurEmoji],
       };
     }),
-  reset: () => set({ count: 0, randEmoji: 0, emojiArray: [] }),
+  reset: () => set({ count: 0, curEmoji: 0, emojiArray: [] }),
+  setEmojiCount: (count) => set({ emojiCount: count }),
 }));
 
 export default useCountStore;

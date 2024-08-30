@@ -14,7 +14,7 @@ const Coin = () => {
   const coinRef = useRef();
   const materialRef = useRef();
 
-  const randEmoji = useCountStore((state) => state.randEmoji);
+  const curEmoji = useCountStore((state) => state.curEmoji);
   const increaseCount = useCountStore((state) => state.increment);
   // const [isFlipping, setIsFlipping] = useState(false);
   const [hasIncreased, setHasIncreased] = useState(false);
@@ -60,7 +60,7 @@ const Coin = () => {
       {/** Top side **/}
       <mesh position={[0, 0, 0.101]}>
         <circleGeometry args={[1, 32]} />
-        <meshStandardMaterial attach='material' map={emojis[randEmoji]} />
+        <meshStandardMaterial attach='material' map={emojis[curEmoji]} />
       </mesh>
       {/** Bottom side **/}
       <mesh position={[0, 0, -0.101]}>
@@ -68,7 +68,7 @@ const Coin = () => {
         <meshStandardMaterial
           attach='material'
           side={THREE.DoubleSide}
-          map={emojis[randEmoji]}
+          map={emojis[curEmoji]}
         />
       </mesh>
     </group>
