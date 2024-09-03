@@ -26,10 +26,10 @@ const Play = () => {
   }, []);
 
   useEffect(() => {
+    reset();
     setIsFlipping(true);
 
     return () => {
-      reset();
       setIsFlipping(false);
     };
   }, [setIsFlipping, reset]);
@@ -38,7 +38,7 @@ const Play = () => {
     if (flipCount >= flipLimit) {
       setTimeout(() => {
         setIsFlipping(false);
-        navigate('/questions');
+        navigate('/quiz');
       }, 1200);
     }
   }, [flipCount, flipLimit, navigate, setIsFlipping]);
