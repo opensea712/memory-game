@@ -67,6 +67,12 @@ const Quiz = () => {
   };
 
   useEffect(() => {
+    if (emojiArray.length < flipLimit) {
+      navigate('/play');
+    }
+  }, [emojiArray, flipLimit, navigate]);
+
+  useEffect(() => {
     handleRestart();
   }, [handleRestart]);
 
