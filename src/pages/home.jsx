@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
-    <div className='layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 flex-1'>
+    <div className='layout-content-container flex flex-col min-w-[512px] py-5 flex-1'>
       <div className='@container'>
         <div className='@[480px]:p-4'>
           <div
@@ -17,7 +17,7 @@ const Home = () => {
                 Memory Game
               </h1>
               <h2 className='text-white text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal'>
-                A guessing game inspired by the famous Yoshimoto Cube
+                A memory game inspired by the famous Yoshimoto Cube
               </h2>
             </div>
             <Link to='/play' className='flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#1466b8] text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em]'>

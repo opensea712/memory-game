@@ -21,7 +21,9 @@ const Coin = () => {
   const [hasIncreased, setHasIncreased] = useState(false);
 
   useEffect(() => {
-    increaseCount();
+    if (isFlipping) {
+      increaseCount();
+    }
   }, [increaseCount, isFlipping]);
 
   useFrame(() => {

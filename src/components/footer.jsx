@@ -1,4 +1,11 @@
+import { useLocation } from 'react-router-dom';
+
 const Footer = () => {
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
+  if (!isHomePage) return null;
+
   return (
     <footer className='flex justify-center'>
       <div className='flex max-w-[960px] flex-1 flex-col'>

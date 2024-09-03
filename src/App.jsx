@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Layout from './components/layout';
 import Home from './pages/home';
 import Play from './pages/play';
+import Questions from './pages/questions';
 
 export default function App() {
   return (
@@ -10,6 +11,7 @@ export default function App() {
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
           <Route path='play' element={<Play />} />
+          <Route path='questions' element={<Questions />} />
         </Route>
       </Routes>
     </Router>
