@@ -7,18 +7,18 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import useCountStore from '../store/CountStore';
-import useSettingStore from '../store/SettingStore';
+import useGameStore from '../store/game';
 import config from '../config';
 import EmojiSelector from '../components/emoji-selector';
 import { useNavigate } from 'react-router-dom';
 
 const Quiz = () => {
   const navigate = useNavigate();
-  const emojiCount = useCountStore((state) => state.emojiCount);
-  const flipLimit = useSettingStore((state) => state.flipLimit);
-  const emojiArray = useCountStore((state) => state.emojiArray);
-  const reset = useCountStore((state) => state.reset);
+  const emojiCount = useGameStore((state) => state.emojiCount);
+  const flipLimit = useGameStore((state) => state.flipLimit);
+  const emojiArray = useGameStore((state) => state.emojiArray);
+  const levelUp = useGameStore((state) => state.levelUp);
+  const reset = useGameStore((state) => state.reset);
 
   const [activeStep, setActiveStep] = useState(0);
   const [randomNumbers, setRandomNumbers] = useState([]);
@@ -55,6 +55,7 @@ const Quiz = () => {
 
   const handleNextLevel = () => {
     reset();
+    levelUp();
     navigate('/play');
   };
 
@@ -106,9 +107,8 @@ const Quiz = () => {
               <StepLabel>Question {index + 1}</StepLabel>
               <StepContent>
                 <Typography sx={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
-                  When the dice has flipped{' '}
-                  <span className='text-red-500'>{number}</span> of times, which
-                  emoji did it land on?
+                  Which emoji did it land on the face in{' '}
+                  <span className='text-red-500'>{number}</span><small>th</small> flip?
                 </Typography>
                 <EmojiSelector
                   emojiCount={emojiCount}
@@ -153,8 +153,9 @@ const Quiz = () => {
             All questions are answered - you&apos;re finished
           </Typography>
           <Typography>
-            You matched <span className='text-red-500 font-bold'>{score}</span> of{' '}
-            <span className='text-red-500'>{randomNumbers.length}</span> emojis
+            You matched <span className='text-red-500 font-bold'>{score}</span>{' '}
+            of <span className='text-red-500'>{randomNumbers.length}</span>{' '}
+            emojis
           </Typography>
           <Box sx={{ mb: 2 }}>
             <Button

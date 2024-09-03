@@ -3,21 +3,20 @@ import { useEffect, useRef, useState } from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 import { TextureLoader } from 'three';
-import useCountStore from '../store/CountStore';
-import config from '../config';
-import useSettingStore from '../store/SettingStore';
+import useGameStore from '../store/game';
+// import config from '../config';
 
 const Coin = () => {
   const emojis = useLoader(
     TextureLoader,
-    Array.from({ length: config.emojiCount }, (_, i) => `/emojis/${i + 1}.png`)
+    Array.from({ length: 12 }, (_, i) => `/emojis/${i + 1}.png`)
   );
   const coinRef = useRef();
   const materialRef = useRef();
 
-  const curEmoji = useCountStore((state) => state.curEmoji);
-  const increaseCount = useCountStore((state) => state.increment);
-  const isFlipping = useSettingStore((state) => state.isFlipping);
+  const curEmoji = useGameStore((state) => state.curEmoji);
+  const increaseCount = useGameStore((state) => state.increment);
+  const isFlipping = useGameStore((state) => state.isFlipping);
   const [hasIncreased, setHasIncreased] = useState(false);
 
   useEffect(() => {

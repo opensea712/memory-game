@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import useCountStore from '../store/CountStore';
+import useGameStore from '../store/game';
 
 const Info = () => {
-  const flipCount = useCountStore((state) => state.count);
-  const emojiArray = useCountStore((state) => state.emojiArray);
+  const flipCount = useGameStore((state) => state.flipCount);
+  const emojiArray = useGameStore((state) => state.emojiArray);
   useEffect(() => {
     console.log(emojiArray);
   }, [emojiArray])
