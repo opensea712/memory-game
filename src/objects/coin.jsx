@@ -19,6 +19,7 @@ const Coin = () => {
   const increaseCount = useCountStore((state) => state.increment);
   const isFlipping = useSettingStore((state) => state.isFlipping);
   const [hasIncreased, setHasIncreased] = useState(false);
+  const [axis, setAxis] = useState(0);
 
   useEffect(() => {
     if (isFlipping) {
@@ -28,10 +29,21 @@ const Coin = () => {
 
   useFrame(() => {
     if (isFlipping && coinRef.current) {
-      coinRef.current.rotation.y += 0.02;
-      const rotation = coinRef.current.rotation.y;
+      const rotationSpeed = 0.02;
+
+      if (axis === 0) {
+        coinRef.current.rotation.x += rotationSpeed;
+      } else {
+        coinRef.current.rotation.y += rotationSpeed;
+      }
+
+      const rotation = coinRef.current.rotation[axis === 0 ? 'x' : 'y']
+
       if (!hasIncreased && rotation >= Math.PI / 2 && rotation < Math.PI) {
         increaseCount();
+        setTimeout(() => {
+          setAxis(Math.floor(Math.random() * 2));
+        }, 1200);
         setHasIncreased(true);
       }
       if (hasIncreased && rotation >= Math.PI && rotation < (3 * Math.PI) / 2) {
@@ -39,10 +51,13 @@ const Coin = () => {
       }
       if (!hasIncreased && rotation >= (3 * Math.PI) / 2 && rotation < Math.PI * 2) {
         increaseCount();
+        setTimeout(() => {
+          setAxis(Math.floor(Math.random() * 2));
+        }, 1200);
         setHasIncreased(true);
       }
       if (rotation >= Math.PI * 2) {
-        coinRef.current.rotation.y = 0;
+        coinRef.current.rotation[axis === 0 ? 'x' : 'y'] = 0;
         setHasIncreased(false);
       }
     }
